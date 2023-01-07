@@ -32,6 +32,7 @@ export class ScoreComponent {
   };
   phase: string = "START";
   time: number = this.matchConfig.time;
+  priority: string = "";
 
   timerColor: string = "primary";
 
@@ -49,39 +50,62 @@ export class ScoreComponent {
     this.time = this.matchConfig.time;
     this.timerColor = "primary";
     document.getElementById("timer")!.style.opacity = "1.0";
+    this.resetPriority();
+  }
+
+  resetPriority() {
+    this.priority = "";
+    document.getElementById("scoreLeft")!.style.backgroundColor = "";
+    document.getElementById("scoreRight")!.style.backgroundColor = "";
   }
 
   increaseScore(score: Score) {
     if (this.phase == "END") {
       return;
     }
+    if (this.phase == "EXTRAMINUTE") {
+      this.time = 0;
+      this.resetPriority();
+      this.timerColor = "disabled";
+      this.phase = "TIMEUP";
+    }
     score.score++;
-    if (score.score == this.matchConfig.touches) {
-      score.displayScore = "V";
+    if (score.score == this.matchConfig.touches || this.priority) {
       navigator.vibrate(500);
       this.timerColor = "disabled";
       this.pauseTimer();
       this.phase = "END";
-    } else {
-      score.displayScore = score.score.toString();
     }
+    this.displayScores();
   }
+
   decreaseScore(score: Score) {
     if (this.phase == "END") {
       if (score.displayScore == score.score.toString()) {
         return;
       }
-      this.timerColor = "primary";
-      this.phase = "PAUSED";
+      score.score--;
+      if (this.priority) {
+        this.timerColor = "warn";
+      } else {
+        this.timerColor = "primary";
+      }
+      if (this.time > 0) {
+        this.phase = "PAUSED";
+      } else {
+        this.maybeExtraMinute();
+      }
+    } else {
+      score.score--;
     }
-    score.score--;
-    score.displayScore = score.score.toString();
+    this.displayScores();
   }
 
   flipTimer() {
     switch (this.phase) {
       case 'START':
       case 'PAUSED':
+      case 'EXTRAMINUTE':
         this.startTimer();
         this.phase = "RUNNING";
         break;
@@ -111,11 +135,41 @@ export class ScoreComponent {
     document.getElementById("timer")!.style.opacity = "1.0";
   }
 
+  maybeExtraMinute() {
+    if (this.scoreLeft.score == this.scoreRight.score && !this.priority) {
+      this.definePriority();
+      this.timerColor = "warn";
+      this.time = 60;
+      this.phase = "EXTRAMINUTE";
+    } else {
+      this.timerColor = "disabled";
+      this.phase = "TIMEUP";
+    }
+  }
+
   timeUp() {
     navigator.vibrate(1000);
-    this.phase = "TIMEUP";
-    this.timerColor = "disabled";
+    this.maybeExtraMinute();
     this.pauseTimer();
+    this.displayScores();
+  }
+
+  displayScores() {
+    this.scoreLeft.displayScore = this.scoreLeft.score.toString();
+    this.scoreRight.displayScore = this.scoreRight.score.toString();
+    if (this.scoreLeft.score == this.matchConfig.touches) {
+      this.scoreLeft.displayScore = "V";
+    }
+    if (this.scoreRight.score == this.matchConfig.touches) {
+      this.scoreRight.displayScore = "V";
+    }
+    if (this.phase == "TIMEUP" || this.phase == "END") {
+      if (this.scoreLeft.score > this.scoreRight.score || (this.scoreLeft.score == this.scoreRight.score && this.priority == "left")) {
+        this.scoreLeft.displayScore = "V" + this.scoreLeft.score.toString();
+      } else if (this.scoreRight.score > this.scoreLeft.score || (this.scoreRight.score == this.scoreLeft.score && this.priority == "right")) {
+        this.scoreRight.displayScore = "V" + this.scoreRight.score.toString();
+      }
+    }
   }
 
   openConfiguration() {
@@ -133,5 +187,16 @@ export class ScoreComponent {
     let rightColor: string = window.getComputedStyle(scoreElementRight).color;
     scoreElementLeft.style.color = rightColor;
     scoreElementRight.style.color = leftColor;
+  }
+
+  definePriority() {
+    const priorityColor = "#d4bff9";
+    if (Math.random() > 0.5) {
+      this.priority = "left";
+      document.getElementById("scoreLeft")!.style.backgroundColor = priorityColor;
+    } else {
+      this.priority = "right";
+      document.getElementById("scoreRight")!.style.backgroundColor = priorityColor;
+    }
   }
 }

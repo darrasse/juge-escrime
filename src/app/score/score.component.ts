@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { ConfigurationComponent } from '../configuration/configuration.component';
+import { ConfigurationComponent, Match } from '../configuration/configuration.component';
 
 interface Score {
   score: number;
@@ -17,7 +17,10 @@ export class ScoreComponent {
 
   math = Math;
 
-  roundTime: number = 180;
+  matchConfig: Match = {
+    time: 180,
+    touches: 5,
+  }
 
   scoreLeft: Score = {
     score: 0,
@@ -28,7 +31,7 @@ export class ScoreComponent {
     displayScore: "0",
   };
   phase: string = "START";
-  time: number = this.roundTime;
+  time: number = this.matchConfig.time;
 
   timerColor: string = "primary";
 
@@ -43,16 +46,34 @@ export class ScoreComponent {
       displayScore: "0",
     };
     this.phase = "START";
-    this.time = this.roundTime;
+    this.time = this.matchConfig.time;
     this.timerColor = "primary";
     document.getElementById("timer")!.style.opacity = "1.0";
   }
 
   increaseScore(score: Score) {
+    if (this.phase == "END") {
+      return;
+    }
     score.score++;
-    score.displayScore = score.score.toString();
+    if (score.score == this.matchConfig.touches) {
+      score.displayScore = "V";
+      navigator.vibrate(500);
+      this.timerColor = "disabled";
+      this.pauseTimer();
+      this.phase = "END";
+    } else {
+      score.displayScore = score.score.toString();
+    }
   }
   decreaseScore(score: Score) {
+    if (this.phase == "END") {
+      if (score.displayScore == score.score.toString()) {
+        return;
+      }
+      this.timerColor = "primary";
+      this.phase = "PAUSED";
+    }
     score.score--;
     score.displayScore = score.score.toString();
   }
@@ -100,8 +121,8 @@ export class ScoreComponent {
   openConfiguration() {
     const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent);
     bottomSheetRef.afterDismissed().subscribe(() => {
-      this.roundTime = bottomSheetRef.instance.time;
-      this.time = this.roundTime;
+      this.matchConfig = bottomSheetRef.instance.match;
+      this.time = this.matchConfig.time;
     });
   }
 

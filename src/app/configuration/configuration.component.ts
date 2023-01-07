@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+
+export interface Match {
+  touches: number; // touches per bout
+  time: number;    // seconds per period
+}
 
 @Component({
   selector: 'app-configuration',
@@ -7,7 +13,12 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent {
-  constructor(private _bottomSheetRef: MatBottomSheetRef<ConfigurationComponent>) {}
+  constructor(
+    private _bottomSheetRef: MatBottomSheetRef<ConfigurationComponent>) {
+  }
 
-  time: number = 180;
+  match: Match = {
+    time: 180,
+    touches: 5,
+  }
 }

@@ -33,6 +33,7 @@ export class ScoreComponent {
   timerColor: string = "primary";
 
   reset() {
+    clearInterval(this.interval);
     this.scoreLeft = {
       score: 0,
       displayScore: "0",

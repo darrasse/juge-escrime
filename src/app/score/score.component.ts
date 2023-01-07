@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ConfigurationComponent } from '../configuration/configuration.component';
 
 interface Score {
   score: number;
@@ -11,6 +13,8 @@ interface Score {
   styleUrls: ['./score.component.css']
 })
 export class ScoreComponent {
+  constructor(private _bottomSheet: MatBottomSheet) { }
+
   math = Math;
 
   roundTime: number = 180;
@@ -90,5 +94,13 @@ export class ScoreComponent {
     this.phase = "TIMEUP";
     this.timerColor = "disabled";
     this.pauseTimer();
+  }
+
+  openConfiguration() {
+    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent);
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      this.roundTime = bottomSheetRef.instance.time;
+      this.time = this.roundTime;
+    });
   }
 }

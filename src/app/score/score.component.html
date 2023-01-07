@@ -1,6 +1,15 @@
 <table>
     <tr>
-        <td><button mat-raised-button color="primary" (click)="reset()">↺</button></td>
+        <td>
+            <button mat-raised-button color="primary" (click)="reset()">
+                ↺
+            </button>
+        </td>
+        <td>
+            <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
+                ⚙
+            </button>
+        </td>
     </tr>
 </table>
 

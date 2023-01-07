@@ -1,0 +1,38 @@
+<table>
+    <tr>
+        <td><button mat-raised-button color="primary" (click)="reset()">↺</button></td>
+    </tr>
+</table>
+
+<table id="scores">
+    <tr>
+        <td>
+            <button mat-icon-button id="scoreLeft" class="score" (click)="increaseScore(scoreLeft)">
+                {{ scoreLeft.displayScore }}
+            </button>
+        </td>
+        <td>
+            <button mat-icon-button id="scoreRight" class="score" (click)="increaseScore(scoreRight)">
+                {{ scoreRight.displayScore }}
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreLeft)">
+                -
+            </button>
+        </td>
+        <td>
+            <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreRight)">
+                -
+            </button>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <button mat-fab extended [color]="timerColor" id="timer" (click)="flipTimer()">
+        {{ math.floor(time/60) | number: '2.0-0' }}:{{ time % 60 | number: '2.0-0' }}
+    </button>
+</p>

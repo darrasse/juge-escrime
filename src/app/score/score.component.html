@@ -6,6 +6,11 @@
             </button>
         </td>
         <td>
+            <button mat-raised-button color="primary" (click)="flipColors()">
+                ↔
+            </button>
+        </td>
+        <td>
             <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
                 ⚙
             </button>

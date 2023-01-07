@@ -104,4 +104,13 @@ export class ScoreComponent {
       this.time = this.roundTime;
     });
   }
+
+  flipColors() {
+    let scoreElementLeft = document.getElementById('scoreLeft')!;
+    let scoreElementRight = document.getElementById('scoreRight')!;
+    let leftColor: string = window.getComputedStyle(scoreElementLeft).color;
+    let rightColor: string = window.getComputedStyle(scoreElementRight).color;
+    scoreElementLeft.style.color = rightColor;
+    scoreElementRight.style.color = leftColor;
+  }
 }

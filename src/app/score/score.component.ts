@@ -208,7 +208,7 @@ export class ScoreComponent {
   }
 
   openConfiguration() {
-    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent);
+    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent, { data: this.matchConfig });
     bottomSheetRef.afterDismissed().subscribe(() => {
       this.matchConfig = bottomSheetRef.instance.match;
       this.time = this.matchConfig.time;

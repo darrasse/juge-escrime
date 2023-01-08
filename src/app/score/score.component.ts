@@ -21,8 +21,10 @@ export class ScoreComponent {
     time: 180,
     touches: 5,
     periods: 1,
+    bouts: 1,
   }
 
+  bout: number = 1;
   period: number = 1;
   scoreLeft: Score = {
     score: 0,
@@ -34,12 +36,15 @@ export class ScoreComponent {
   };
   phase: string = "START";
   time: number = this.matchConfig.time;
+  timeRollback: number = 0;
   priority: string = "";
 
   timerColor: string = "primary";
 
   reset() {
     clearInterval(this.interval);
+    this.bout = 1;
+    this.period = 1;
     this.scoreLeft = {
       score: 0,
       displayScore: "0",
@@ -72,11 +77,18 @@ export class ScoreComponent {
       this.phase = "TIMEUP";
     }
     score.score++;
-    if (score.score == this.matchConfig.touches || this.priority) {
+    if (score.score == this.matchConfig.touches * this.matchConfig.bouts || this.priority) {
       navigator.vibrate(500);
       this.timerColor = "disabled";
       this.pauseTimer();
       this.phase = "END";
+    } else if (score.score == this.matchConfig.touches * this.bout) {
+      navigator.vibrate(500);
+      this.pauseTimer();
+      this.bout++;
+      this.timeRollback = this.time;
+      this.time = this.matchConfig.time;
+      this.phase = "PAUSED";
     }
     this.displayScores();
   }
@@ -97,6 +109,11 @@ export class ScoreComponent {
       } else {
         this.maybeExtraMinute();
       }
+    } else if (this.bout > 1 && this.timeRollback > 0 && score.score == this.matchConfig.touches * (this.bout - 1)) {
+      score.score--;
+      this.bout--;
+      this.time = this.timeRollback;
+      this.timeRollback = 0;
     } else {
       score.score--;
     }
@@ -162,6 +179,11 @@ export class ScoreComponent {
       this.timerColor = "basic";
       this.time = 60;
       this.phase = "BREAK";
+    } else if (this.bout < this.matchConfig.bouts) {
+      this.pauseTimer();
+      this.bout++;
+      this.time = this.matchConfig.time;
+      this.phase = "PAUSED";
     } else {
       this.maybeExtraMinute();
       this.pauseTimer();
@@ -172,13 +194,11 @@ export class ScoreComponent {
   displayScores() {
     this.scoreLeft.displayScore = this.scoreLeft.score.toString();
     this.scoreRight.displayScore = this.scoreRight.score.toString();
-    if (this.scoreLeft.score == this.matchConfig.touches) {
+    if (this.scoreLeft.score == this.matchConfig.touches * this.matchConfig.bouts) {
       this.scoreLeft.displayScore = "V";
-    }
-    if (this.scoreRight.score == this.matchConfig.touches) {
+    } else if (this.scoreRight.score == this.matchConfig.touches * this.matchConfig.bouts) {
       this.scoreRight.displayScore = "V";
-    }
-    if (this.phase == "TIMEUP" || this.phase == "END") {
+    } else if (this.phase == "TIMEUP" || this.phase == "END") {
       if (this.scoreLeft.score > this.scoreRight.score || (this.scoreLeft.score == this.scoreRight.score && this.priority == "left")) {
         this.scoreLeft.displayScore = "V" + this.scoreLeft.score.toString();
       } else if (this.scoreRight.score > this.scoreLeft.score || (this.scoreRight.score == this.scoreLeft.score && this.priority == "right")) {

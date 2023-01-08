@@ -40,6 +40,7 @@
         </td>
         <td>
             <div *ngIf="matchConfig.periods > 1">{{ period }}/{{ matchConfig.periods }}</div>
+            <div *ngIf="matchConfig.bouts > 1">{{ bout }}/{{ matchConfig.bouts }}</div>
         </td>
         <td>
             <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreRight)">

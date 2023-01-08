@@ -20,8 +20,10 @@ export class ScoreComponent {
   matchConfig: Match = {
     time: 180,
     touches: 5,
+    periods: 1,
   }
 
+  period: number = 1;
   scoreLeft: Score = {
     score: 0,
     displayScore: "0",
@@ -148,10 +150,23 @@ export class ScoreComponent {
   }
 
   timeUp() {
+    // phase should be RUNNING or BREAK
     navigator.vibrate(1000);
-    this.maybeExtraMinute();
-    this.pauseTimer();
-    this.displayScores();
+    if (this.phase == "BREAK") {
+      this.pauseTimer();
+      this.period++;
+      this.timerColor = "primary";
+      this.time = this.matchConfig.time;
+      this.phase = "PAUSED";
+    } else if (this.period < this.matchConfig.periods) {
+      this.timerColor = "basic";
+      this.time = 60;
+      this.phase = "BREAK";
+    } else {
+      this.maybeExtraMinute();
+      this.pauseTimer();
+      this.displayScores();
+    }
   }
 
   displayScores() {

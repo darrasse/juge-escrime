@@ -25,7 +25,7 @@
                 {{ scoreLeft.displayScore }}
             </button>
         </td>
-        <td>{{ matchConfig.touches }}</td>
+        <td>{{ matchConfig.touches * bout }}</td>
         <td>
             <button mat-icon-button id="scoreRight" class="score" (click)="increaseScore(scoreRight)">
                 {{ scoreRight.displayScore }}

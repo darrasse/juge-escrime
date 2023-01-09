@@ -67,17 +67,24 @@ export class ScoreComponent {
   }
 
   increaseScore(score: Score) {
-    if (this.phase == "END") {
+    this.pauseTimer();
+    if (score.displayScore == "V") {
       return;
     }
+    if (this.scoreLeft.displayScore == "V" || this.scoreRight.displayScore == "V") {
+      if (score.score == this.matchConfig.touches * this.matchConfig.bouts - 1) {
+        return;
+      }
+    }
     if (this.phase == "EXTRAMINUTE") {
-      this.time = 0;
       this.resetPriority();
-      this.timerColor = "disabled";
+      this.time = 0;
       this.phase = "TIMEUP";
     }
     score.score++;
-    if (score.score == this.matchConfig.touches * this.matchConfig.bouts || this.priority) {
+    if (this.phase == "TIMEUP") {
+      this.maybeExtraMinute();
+    } else if (score.score == this.matchConfig.touches * this.matchConfig.bouts || this.priority) {
       navigator.vibrate(500);
       this.timerColor = "disabled";
       this.pauseTimer();
@@ -94,28 +101,25 @@ export class ScoreComponent {
   }
 
   decreaseScore(score: Score) {
-    if (this.phase == "END") {
-      if (score.displayScore == score.score.toString()) {
-        return;
-      }
-      score.score--;
-      if (this.priority) {
-        this.timerColor = "warn";
-      } else {
-        this.timerColor = "primary";
-      }
-      if (this.time > 0) {
-        this.phase = "PAUSED";
-      } else {
-        this.maybeExtraMinute();
-      }
+    this.pauseTimer();
+    if (this.phase == "EXTRAMINUTE") {
+      this.resetPriority();
+      this.time = 0;
+      this.phase = "TIMEUP";
+    } else if (this.priority) {
+      this.timerColor = "warn";
+      this.phase = "PAUSED";
+    } else if (score.displayScore == "V") {
+      this.timerColor = "primary";
+      this.phase = "PAUSED";
     } else if (this.bout > 1 && this.timeRollback > 0 && score.score == this.matchConfig.touches * (this.bout - 1)) {
-      score.score--;
       this.bout--;
       this.time = this.timeRollback;
       this.timeRollback = 0;
-    } else {
-      score.score--;
+    }
+    score.score--;
+    if (this.phase == "TIMEUP") {
+      this.maybeExtraMinute();
     }
     this.displayScores();
   }
@@ -198,7 +202,7 @@ export class ScoreComponent {
       this.scoreLeft.displayScore = "V";
     } else if (this.scoreRight.score == this.matchConfig.touches * this.matchConfig.bouts) {
       this.scoreRight.displayScore = "V";
-    } else if (this.phase == "TIMEUP" || this.phase == "END") {
+    } else if (this.phase == "TIMEUP") {
       if (this.scoreLeft.score > this.scoreRight.score || (this.scoreLeft.score == this.scoreRight.score && this.priority == "left")) {
         this.scoreLeft.displayScore = "V" + this.scoreLeft.score.toString();
       } else if (this.scoreRight.score > this.scoreLeft.score || (this.scoreRight.score == this.scoreLeft.score && this.priority == "right")) {

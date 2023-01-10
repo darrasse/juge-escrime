@@ -87,14 +87,14 @@ export class ScoreComponent {
     } else if (score.score == this.matchConfig.touches * this.matchConfig.bouts || this.priority) {
       navigator.vibrate(500);
       this.timerColor = "disabled";
-      this.pauseTimer();
       this.phase = "END";
     } else if (score.score == this.matchConfig.touches * this.bout) {
       navigator.vibrate(500);
-      this.pauseTimer();
       this.bout++;
       this.timeRollback = this.time;
       this.time = this.matchConfig.time;
+      this.phase = "PAUSED";
+    } else {
       this.phase = "PAUSED";
     }
     this.displayScores();
@@ -108,10 +108,8 @@ export class ScoreComponent {
       this.phase = "TIMEUP";
     } else if (this.priority) {
       this.timerColor = "warn";
-      this.phase = "PAUSED";
     } else if (score.displayScore == "V") {
       this.timerColor = "primary";
-      this.phase = "PAUSED";
     } else if (this.bout > 1 && this.timeRollback > 0 && score.score == this.matchConfig.touches * (this.bout - 1)) {
       this.bout--;
       this.time = this.timeRollback;
@@ -120,6 +118,8 @@ export class ScoreComponent {
     score.score--;
     if (this.phase == "TIMEUP") {
       this.maybeExtraMinute();
+    } else {
+      this.phase = "PAUSED";
     }
     this.displayScores();
   }
@@ -129,12 +129,12 @@ export class ScoreComponent {
       case 'START':
       case 'PAUSED':
       case 'EXTRAMINUTE':
-        this.startTimer();
         this.phase = "RUNNING";
+        this.startTimer();
         break;
       case 'RUNNING':
-        this.pauseTimer();
         this.phase = "PAUSED";
+        this.pauseTimer();
         break;
     }
   }
@@ -172,9 +172,9 @@ export class ScoreComponent {
 
   timeUp() {
     // phase should be RUNNING or BREAK
+    this.pauseTimer();
     navigator.vibrate(1000);
     if (this.phase == "BREAK") {
-      this.pauseTimer();
       this.period++;
       this.timerColor = "primary";
       this.time = this.matchConfig.time;
@@ -183,14 +183,13 @@ export class ScoreComponent {
       this.timerColor = "basic";
       this.time = 60;
       this.phase = "BREAK";
+      this.startTimer();
     } else if (this.bout < this.matchConfig.bouts) {
-      this.pauseTimer();
       this.bout++;
       this.time = this.matchConfig.time;
       this.phase = "PAUSED";
     } else {
       this.maybeExtraMinute();
-      this.pauseTimer();
       this.displayScores();
     }
   }

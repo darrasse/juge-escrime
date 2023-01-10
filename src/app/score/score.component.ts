@@ -197,11 +197,11 @@ export class ScoreComponent {
   displayScores() {
     this.scoreLeft.displayScore = this.scoreLeft.score.toString();
     this.scoreRight.displayScore = this.scoreRight.score.toString();
-    if (this.scoreLeft.score == this.matchConfig.touches * this.matchConfig.bouts) {
+    if (this.scoreLeft.score == this.matchConfig.touches * this.matchConfig.bouts && !this.priority) {
       this.scoreLeft.displayScore = "V";
-    } else if (this.scoreRight.score == this.matchConfig.touches * this.matchConfig.bouts) {
+    } else if (this.scoreRight.score == this.matchConfig.touches * this.matchConfig.bouts && !this.priority) {
       this.scoreRight.displayScore = "V";
-    } else if (this.phase == "TIMEUP") {
+    } else if (this.phase == "TIMEUP" || this.phase == "END") {
       if (this.scoreLeft.score > this.scoreRight.score || (this.scoreLeft.score == this.scoreRight.score && this.priority == "left")) {
         this.scoreLeft.displayScore = "V" + this.scoreLeft.score.toString();
       } else if (this.scoreRight.score > this.scoreLeft.score || (this.scoreRight.score == this.scoreLeft.score && this.priority == "right")) {

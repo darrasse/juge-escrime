@@ -1,57 +1,39 @@
-<table>
-    <tr>
-        <td>
+<div class="content">
+<div class="header">
             <button mat-raised-button color="primary" (click)="reset()">
                 ↺
             </button>
-        </td>
-        <td>
             <button mat-raised-button color="primary" (click)="flipColors()">
                 ↔
             </button>
-        </td>
-        <td>
             <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
                 ⚙
             </button>
-        </td>
-    </tr>
-</table>
+</div>
 
-<table id="scores">
-    <tr>
-        <td>
+<div id="scores" class="scores">
             <button mat-icon-button id="scoreLeft" class="score" (click)="increaseScore(scoreLeft)">
                 {{ scoreLeft.displayScore }}
             </button>
-        </td>
-        <td>{{ matchConfig.touches * bout }}</td>
-        <td>
+        <div>{{ matchConfig.touches * bout }}</div>
             <button mat-icon-button id="scoreRight" class="score" (click)="increaseScore(scoreRight)">
                 {{ scoreRight.displayScore }}
             </button>
-        </td>
-    </tr>
-    <tr>
-        <td>
             <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreLeft)">
                 -
             </button>
-        </td>
-        <td>
+        <div>
             <div *ngIf="matchConfig.periods > 1">{{ period }}/{{ matchConfig.periods }}</div>
             <div *ngIf="matchConfig.bouts > 1">{{ bout }}/{{ matchConfig.bouts }}</div>
-        </td>
-        <td>
+        </div>
             <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreRight)">
                 -
             </button>
-        </td>
-    </tr>
-</table>
-
-<p>
+</div>
+<div class="filler"></div>
+<div class="timer">
     <button mat-fab extended [color]="timerColor" id="timer" (click)="flipTimer()">
         {{ math.floor(time/60) | number: '2.0-0' }}:{{ time % 60 | number: '2.0-0' }}
     </button>
-</p>
+</div>
+</div>

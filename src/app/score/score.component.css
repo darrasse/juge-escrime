@@ -1,26 +1,54 @@
 button {
-    font-size: 20pt;
+    font-size: 1em;
 }
 
 table {
     width: 100%;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0.5em;
+  box-sizing: border-box;
+  font-size: 3vh;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 #scores {
-    height: 20%;
-    margin-bottom: 20%;
-    text-align: center;
-    font-size: 32pt;
+  height: 20%;
+  text-align: center;
+  font-size: 1.5em;
+  display: grid;
+  grid-template-columns: 4fr 2fr 4fr;
+  align-items: center;
+  justify-items: stretch;
+}
+
+.filler {
+  flex-grow: 1;
+}
+
+.timer {
+  height: 20%;
 }
 
 button.score {
-    font-size: 72pt;
-    height: 10%;
-    width: 40%;
+    font-size: 2.5em;
+    height: 100%;
+    width: 100%;
 }
 
 button.decreaseScore {
-    font-size: 32pt;
+    font-size: 1em;
+    height: 100%;
+    width: 100%;
 }
 
 #scoreLeft {
@@ -33,8 +61,6 @@ button.decreaseScore {
 
 #timer {
     width: 100%;
-    margin-top: 40%;
-    padding-top: 20%;
-    padding-bottom: 20%;
-    font-size: 40pt;
+    height: 100%;
+    font-size: 2.2em;
 }

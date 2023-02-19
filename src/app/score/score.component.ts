@@ -170,9 +170,24 @@ export class ScoreComponent {
     }
   }
 
+  audioContext : AudioContext = new AudioContext();
+
+  beep() {
+    let oscillator = this.audioContext.createOscillator();
+    let gain = this.audioContext.createGain();
+    oscillator.connect(gain);
+    oscillator.frequency.value = 700;
+    oscillator.type = "square";
+    gain.connect(this.audioContext.destination);
+    gain.gain.value = 1;
+    oscillator.start(this.audioContext.currentTime);
+    oscillator.stop(this.audioContext.currentTime + 1);
+  }
+
   timeUp() {
     // phase should be RUNNING or BREAK
     this.pauseTimer();
+    this.beep();
     navigator.vibrate(1000);
     if (this.phase == "BREAK") {
       this.period++;

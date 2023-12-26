@@ -124,6 +124,17 @@ export class ScoreComponent {
     this.displayScores();
   }
 
+  audioContext : AudioContext = new AudioContext();
+
+  beep(frequency: number, volume: number, duration: number) {
+    const oscillatorNode: OscillatorNode = new OscillatorNode(this.audioContext, { type: "square", frequency: frequency });
+    const gainNode: GainNode = new GainNode(this.audioContext, { gain: volume });
+    gainNode.connect(this.audioContext.destination);
+    oscillatorNode.connect(gainNode);
+    oscillatorNode.start(this.audioContext.currentTime);
+    oscillatorNode.stop(this.audioContext.currentTime + duration);
+  }
+
   flipTimer() {
     switch (this.phase) {
       case 'START':
@@ -131,12 +142,15 @@ export class ScoreComponent {
       case 'EXTRAMINUTE':
         this.phase = "RUNNING";
         this.startTimer();
+        this.beep(1320, 0.1, 0.1);
         break;
       case 'RUNNING':
         this.phase = "PAUSED";
         this.pauseTimer();
+        this.beep(440, 0.1, 0.1);
         break;
     }
+    navigator.vibrate(100);
   }
 
   interval: ReturnType<typeof setTimeout> = setInterval(() => {}, 1000);
@@ -170,24 +184,10 @@ export class ScoreComponent {
     }
   }
 
-  audioContext : AudioContext = new AudioContext();
-
-  beep() {
-    let oscillator = this.audioContext.createOscillator();
-    let gain = this.audioContext.createGain();
-    oscillator.connect(gain);
-    oscillator.frequency.value = 700;
-    oscillator.type = "square";
-    gain.connect(this.audioContext.destination);
-    gain.gain.value = 1;
-    oscillator.start(this.audioContext.currentTime);
-    oscillator.stop(this.audioContext.currentTime + 1);
-  }
-
   timeUp() {
     // phase should be RUNNING or BREAK
     this.pauseTimer();
-    this.beep();
+    this.beep(880, 1, 1);
     navigator.vibrate(1000);
     if (this.phase == "BREAK") {
       this.period++;

@@ -7,6 +7,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { ScoreComponent } from './score/score.component';
@@ -26,6 +27,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

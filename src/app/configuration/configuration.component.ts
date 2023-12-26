@@ -3,10 +3,11 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 export interface Match {
-  bouts: number;   // bouts per match
-  periods: number; // periods per bout
-  touches: number; // touches per bout
-  time: number;    // seconds per period
+  bouts: number;      // bouts per match
+  periods: number;    // periods per bout
+  touches: number;    // touches per bout
+  time: number;       // seconds per period
+  passivity: boolean; // whether to stop after a minute without a touch
 }
 
 @Component({
@@ -30,5 +31,6 @@ export class ConfigurationComponent {
     touches: 5,
     periods: 1,
     bouts: 1,
+    passivity: false,
   }
 }

@@ -22,6 +22,7 @@ export class ScoreComponent {
     touches: 5,
     periods: 1,
     bouts: 1,
+    passivity: false,
   }
 
   bout: number = 1;
@@ -38,6 +39,7 @@ export class ScoreComponent {
   time: number = this.matchConfig.time * 10;
   timeRollback: number = 0;
   priority: string = "";
+  passivityTime: number = 600;
 
   timerColor: string = "primary";
 
@@ -56,6 +58,7 @@ export class ScoreComponent {
     this.phase = "START";
     this.time = this.matchConfig.time * 10;
     this.timerColor = "primary";
+    this.passivityTime = 600;
     document.getElementById("timer")!.style.opacity = "1.0";
     this.resetPriority();
   }
@@ -68,6 +71,11 @@ export class ScoreComponent {
 
   increaseScore(score: Score) {
     this.pauseTimer();
+    if (this.time > 600) {
+      this.passivityTime = 600;
+    } else {
+      this.passivityTime = 0;
+    }
     if (score.displayScore == "V") {
       return;
     }
@@ -158,12 +166,26 @@ export class ScoreComponent {
   startTimer() {
     clearInterval(this.interval);
     document.getElementById("timer")!.style.opacity = "0.88";
-    this.interval = setInterval(() => {
-      this.time--;
-      if (this.time <= 0) {
-        this.timeUp();
-      }
-    }, 100);
+    if (this.phase == "RUNNING" && this.matchConfig.passivity && this.passivityTime > 0) {
+      this.interval = setInterval(() => {
+        this.time--;
+        if (this.time <= 0) {
+          this.timeUp();
+        } else {
+          this.passivityTime--;
+          if (this.passivityTime <= 0) {
+            this.passivityTimeUp();
+          }
+        }
+      }, 100);
+    } else {
+      this.interval = setInterval(() => {
+        this.time--;
+        if (this.time <= 0) {
+          this.timeUp();
+        }
+      }, 100);
+    }
   }
 
   pauseTimer() {
@@ -181,6 +203,7 @@ export class ScoreComponent {
       this.timerColor = "disabled";
       this.phase = "TIMEUP";
     }
+    this.passivityTime = 0;
   }
 
   timeUp() {
@@ -196,16 +219,29 @@ export class ScoreComponent {
     } else if (this.period < this.matchConfig.periods) {
       this.timerColor = "basic";
       this.time = 600;
+      this.passivityTime = 600;
       this.phase = "BREAK";
       this.startTimer();
     } else if (this.bout < this.matchConfig.bouts) {
       this.bout++;
       this.time = this.matchConfig.time * 10;
+      this.passivityTime = 600;
       this.phase = "PAUSED";
     } else {
       this.maybeExtraMinute();
       this.displayScores();
     }
+  }
+
+  passivityTimeUp() {
+    // phase should be RUNNING
+    this.pauseTimer();
+    this.beep(660, 0.5, 0.5);
+    navigator.vibrate(500);
+    if (this.time > 600) {
+      this.passivityTime = 600;
+    }
+    this.phase = "PAUSED";
   }
 
   displayScores() {

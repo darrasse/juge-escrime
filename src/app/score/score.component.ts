@@ -35,7 +35,7 @@ export class ScoreComponent {
     displayScore: "0",
   };
   phase: string = "START";
-  time: number = this.matchConfig.time;
+  time: number = this.matchConfig.time * 10;
   timeRollback: number = 0;
   priority: string = "";
 
@@ -54,7 +54,7 @@ export class ScoreComponent {
       displayScore: "0",
     };
     this.phase = "START";
-    this.time = this.matchConfig.time;
+    this.time = this.matchConfig.time * 10;
     this.timerColor = "primary";
     document.getElementById("timer")!.style.opacity = "1.0";
     this.resetPriority();
@@ -92,7 +92,7 @@ export class ScoreComponent {
       navigator.vibrate(500);
       this.bout++;
       this.timeRollback = this.time;
-      this.time = this.matchConfig.time;
+      this.time = this.matchConfig.time * 10;
       this.phase = "PAUSED";
     } else {
       this.phase = "PAUSED";
@@ -159,12 +159,11 @@ export class ScoreComponent {
     clearInterval(this.interval);
     document.getElementById("timer")!.style.opacity = "0.88";
     this.interval = setInterval(() => {
-      if (this.time > 0) {
-        this.time--;
-      } else {
+      this.time--;
+      if (this.time <= 0) {
         this.timeUp();
       }
-    }, 1000);
+    }, 100);
   }
 
   pauseTimer() {
@@ -176,7 +175,7 @@ export class ScoreComponent {
     if (this.scoreLeft.score == this.scoreRight.score && !this.priority) {
       this.definePriority();
       this.timerColor = "warn";
-      this.time = 60;
+      this.time = 600;
       this.phase = "EXTRAMINUTE";
     } else {
       this.timerColor = "disabled";
@@ -192,16 +191,16 @@ export class ScoreComponent {
     if (this.phase == "BREAK") {
       this.period++;
       this.timerColor = "primary";
-      this.time = this.matchConfig.time;
+      this.time = this.matchConfig.time * 10;
       this.phase = "PAUSED";
     } else if (this.period < this.matchConfig.periods) {
       this.timerColor = "basic";
-      this.time = 60;
+      this.time = 600;
       this.phase = "BREAK";
       this.startTimer();
     } else if (this.bout < this.matchConfig.bouts) {
       this.bout++;
-      this.time = this.matchConfig.time;
+      this.time = this.matchConfig.time * 10;
       this.phase = "PAUSED";
     } else {
       this.maybeExtraMinute();
@@ -229,7 +228,7 @@ export class ScoreComponent {
     const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent, { data: this.matchConfig });
     bottomSheetRef.afterDismissed().subscribe(() => {
       this.matchConfig = bottomSheetRef.instance.match;
-      this.time = this.matchConfig.time;
+      this.time = this.matchConfig.time * 10;
     });
   }
 

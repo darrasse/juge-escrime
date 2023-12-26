@@ -33,8 +33,14 @@
 <div class="filler"></div>
 <div class="timer">
     <button mat-fab extended [color]="timerColor" id="timer" (click)="flipTimer()">
-        {{ math.floor(time/60) | number: '2.0-0' }}:{{ time % 60 | number: '2.0-0' }}
+        <ng-container *ngIf="time > 600; then timeMinutesSeconds; else timeSecondsTenths"></ng-container>
     </button>
+    <ng-template #timeMinutesSeconds>
+        {{ math.floor(time/600) | number: '2.0-0' }}:{{ math.floor(time/10) % 60 | number: '2.0-0' }}
+    </ng-template>
+    <ng-template #timeSecondsTenths>
+        {{ math.floor(time/10) | number: '2.0-0' }}.{{ time % 10 | number: '1.0-0' }}
+    </ng-template>
 </div>
 <div class="filler"></div>
 </div>

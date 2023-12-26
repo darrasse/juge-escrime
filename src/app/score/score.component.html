@@ -6,6 +6,9 @@
             <button mat-raised-button color="primary" (click)="flipColors()">
                 ↔
             </button>
+            <button mat-raised-button color="primary" [disabled]="this.phase == 'START'" (click)="openEdit()">
+                ✎
+            </button>
             <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
                 ⚙
             </button>

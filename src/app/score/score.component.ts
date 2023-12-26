@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { ConfigurationComponent, Match } from '../configuration/configuration.component';
+import { ConfigurationComponent, Match, MatchSnapshot } from '../configuration/configuration.component';
 
 interface Score {
   score: number;
@@ -261,10 +261,23 @@ export class ScoreComponent {
   }
 
   openConfiguration() {
-    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent, { data: this.matchConfig });
+    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent, { data: { config: this.matchConfig } });
     bottomSheetRef.afterDismissed().subscribe(() => {
       this.matchConfig = bottomSheetRef.instance.match;
       this.time = this.matchConfig.time * 10;
+    });
+  }
+
+  openEdit() {
+    var snapshot: MatchSnapshot = {
+      time: this.time / 10,
+      passivityTime: this.passivityTime / 10,
+    }
+    const bottomSheetRef = this._bottomSheet.open(ConfigurationComponent, { data: { snapshot: snapshot } });
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      snapshot = bottomSheetRef.instance.snapshot;
+      this.time = snapshot.time * 10;
+      this.passivityTime = snapshot.passivityTime * 10;
     });
   }
 

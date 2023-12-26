@@ -1,3 +1,4 @@
+<div *ngIf="match">
 <mat-form-field>
     <mat-label>⏱ (s)</mat-label>
     <input matInput type="number" [(ngModel)]="match.time">
@@ -25,3 +26,15 @@
         <mat-option value="false">No</mat-option>
     </mat-select>
 </mat-form-field>
+</div>
+<div *ngIf="snapshot">
+<mat-form-field>
+    <mat-label>⏱ (s)</mat-label>
+    <input matInput type="number" [(ngModel)]="snapshot.time">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Passivity ⏱ (s)</mat-label>
+    <input matInput type="number" [(ngModel)]="snapshot.passivityTime">
+</mat-form-field>
+</div>

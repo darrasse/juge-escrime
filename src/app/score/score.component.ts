@@ -8,9 +8,10 @@ interface Score {
 }
 
 @Component({
-  selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.css']
+    selector: 'app-score',
+    templateUrl: './score.component.html',
+    styleUrls: ['./score.component.css'],
+    standalone: false
 })
 export class ScoreComponent {
   constructor(private _bottomSheet: MatBottomSheet) { }

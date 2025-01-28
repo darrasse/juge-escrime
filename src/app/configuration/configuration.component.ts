@@ -21,9 +21,10 @@ export interface ConfigData {
 }
 
 @Component({
-  selector: 'app-configuration',
-  templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.css']
+    selector: 'app-configuration',
+    templateUrl: './configuration.component.html',
+    styleUrls: ['./configuration.component.css'],
+    standalone: false
 })
 export class ConfigurationComponent {
   constructor(

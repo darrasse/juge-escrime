@@ -22,8 +22,8 @@
 <mat-form-field>
     <mat-label>Passivity</mat-label>
     <mat-select [(ngModel)]="match.passivity">
-        <mat-option value="true">Yes</mat-option>
-        <mat-option value="false">No</mat-option>
+        <mat-option [value]="true">Yes</mat-option>
+        <mat-option [value]="false">No</mat-option>
     </mat-select>
 </mat-form-field>
 </div>

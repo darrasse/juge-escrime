@@ -1,0 +1,79 @@
+{
+  "configVersion": 1,
+  "timestamp": 1738350813274,
+  "index": "/juge-escrime/dist/browser/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/juge-escrime/dist/browser/favicon.ico",
+        "/juge-escrime/dist/browser/index.html",
+        "/juge-escrime/dist/browser/main-GQZ6GXWJ.js",
+        "/juge-escrime/dist/browser/manifest.webmanifest",
+        "/juge-escrime/dist/browser/polyfills-FFHMD2TL.js",
+        "/juge-escrime/dist/browser/styles-4DFNLIIB.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/juge-escrime/dist/browser/icons/icon-128x128.png",
+        "/juge-escrime/dist/browser/icons/icon-144x144.png",
+        "/juge-escrime/dist/browser/icons/icon-152x152.png",
+        "/juge-escrime/dist/browser/icons/icon-192x192.png",
+        "/juge-escrime/dist/browser/icons/icon-384x384.png",
+        "/juge-escrime/dist/browser/icons/icon-512x512.png",
+        "/juge-escrime/dist/browser/icons/icon-72x72.png",
+        "/juge-escrime/dist/browser/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/juge-escrime/dist/browser/favicon.ico": "2e93fab22af06640208b1f841311965c2f3b7c76",
+    "/juge-escrime/dist/browser/icons/icon-128x128.png": "b251e1e81fbf46eb10dc539f7dcc44be9145a97e",
+    "/juge-escrime/dist/browser/icons/icon-144x144.png": "b49af1aa8bea874170d53856b3b72984b958e617",
+    "/juge-escrime/dist/browser/icons/icon-152x152.png": "e4f05af5ba1ce16c9a01f94be63ff7981fa4e543",
+    "/juge-escrime/dist/browser/icons/icon-192x192.png": "86455596532a206fecf156e44fc8dd0806c88efb",
+    "/juge-escrime/dist/browser/icons/icon-384x384.png": "5237f6de9705919540559b66aa9c043a24904316",
+    "/juge-escrime/dist/browser/icons/icon-512x512.png": "e2d26ca56e47f7fcc89c9eb2b7ef0ed008cbbe82",
+    "/juge-escrime/dist/browser/icons/icon-72x72.png": "60be8baba0933dd1f33f963e31a4c5219113fc3a",
+    "/juge-escrime/dist/browser/icons/icon-96x96.png": "d66f1e5414356acf2120fd29adcea06f6b652386",
+    "/juge-escrime/dist/browser/index.html": "5234dafe6ec1f639f14ef4f19775230cfb095be0",
+    "/juge-escrime/dist/browser/main-GQZ6GXWJ.js": "0ec3fb2c3988fede1976c9f0e017108fde78f78e",
+    "/juge-escrime/dist/browser/manifest.webmanifest": "6697f57223fb98dcbda02051297355839f9c0acf",
+    "/juge-escrime/dist/browser/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/juge-escrime/dist/browser/styles-4DFNLIIB.css": "d9b9cdfb26df37427a71b436ee344563b07c463b"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

@@ -94,11 +94,11 @@ export class ScoreComponent {
     if (this.phase == "TIMEUP") {
       this.maybeExtraMinute();
     } else if (score.score == this.matchConfig.touches * this.matchConfig.bouts || this.priority) {
-      navigator.vibrate(500);
+      this.vibrate(500);
       this.timerColor = "disabled";
       this.phase = "END";
     } else if (score.score == this.matchConfig.touches * this.bout) {
-      navigator.vibrate(500);
+      this.vibrate(500);
       this.bout++;
       this.timeRollback = this.time;
       this.time = this.matchConfig.time * 10;
@@ -144,6 +144,12 @@ export class ScoreComponent {
     oscillatorNode.stop(this.audioContext.currentTime + duration);
   }
 
+  vibrate(duration: number) {
+    if (navigator.vibrate) {
+      navigator.vibrate(duration);
+    }
+  }
+
   flipTimer() {
     switch (this.phase) {
       case 'START':
@@ -159,7 +165,7 @@ export class ScoreComponent {
         this.beep(440, 0.1, 0.1);
         break;
     }
-    navigator.vibrate(100);
+    this.vibrate(100);
   }
 
   interval: ReturnType<typeof setTimeout> = setInterval(() => {}, 1000);
@@ -211,7 +217,7 @@ export class ScoreComponent {
     // phase should be RUNNING or BREAK
     this.pauseTimer();
     this.beep(880, 1, 1);
-    navigator.vibrate(1000);
+    this.vibrate(1000);
     if (this.phase == "BREAK") {
       this.period++;
       this.timerColor = "primary";
@@ -238,7 +244,7 @@ export class ScoreComponent {
     // phase should be RUNNING
     this.pauseTimer();
     this.beep(660, 0.5, 0.5);
-    navigator.vibrate(500);
+    this.vibrate(500);
     if (this.time > 600) {
       this.passivityTime = 600;
     }

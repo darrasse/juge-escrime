@@ -5,13 +5,14 @@ import { ConfigurationComponent, Match, MatchSnapshot } from '../configuration/c
 interface Score {
   score: number;
   displayScore: string;
+  yellow: boolean;
 }
 
 @Component({
-    selector: 'app-score',
-    templateUrl: './score.component.html',
-    styleUrls: ['./score.component.css'],
-    standalone: false
+  selector: 'app-score',
+  templateUrl: './score.component.html',
+  styleUrls: ['./score.component.css'],
+  standalone: false
 })
 export class ScoreComponent {
   constructor(private _bottomSheet: MatBottomSheet) { }
@@ -31,10 +32,12 @@ export class ScoreComponent {
   scoreLeft: Score = {
     score: 0,
     displayScore: "0",
+    yellow: true,
   };
   scoreRight: Score = {
     score: 0,
     displayScore: "0",
+    yellow: false,
   };
   phase: string = "START";
   time: number = this.matchConfig.time * 10;
@@ -51,10 +54,12 @@ export class ScoreComponent {
     this.scoreLeft = {
       score: 0,
       displayScore: "0",
+      yellow: false,
     };
     this.scoreRight = {
       score: 0,
       displayScore: "0",
+      yellow: false,
     };
     this.phase = "START";
     this.time = this.matchConfig.time * 10;

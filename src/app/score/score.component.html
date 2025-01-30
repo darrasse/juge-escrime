@@ -33,12 +33,12 @@
       -
     </button>
     <div>
-      <div *ngIf="scoreLeft.yellow">🟨</div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreLeft.yellow = false" *ngIf="scoreLeft.yellow">🟨</button>
     </div>
     <div>
     </div>
     <div>
-      <div *ngIf="scoreRight.yellow">🟨</div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreRight.yellow = false" *ngIf="scoreRight.yellow">🟨</button>
     </div>
 
   </div>

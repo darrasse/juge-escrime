@@ -33,15 +33,17 @@
       -
     </button>
     <div>
-      <div *ngIf="scoreLeft.yellow">🟨</div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreLeft.yellow = false" *ngIf="scoreLeft.yellow">🟨</button>
     </div>
     <div>
     </div>
     <div>
-      <div *ngIf="scoreRight.yellow">🟨</div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreRight.yellow = false" *ngIf="scoreRight.yellow">🟨</button>
     </div>
 
   </div>
+  <div class="filler"></div>
+  <div class="filler"></div>
   <div class="filler"></div>
   <div id="passivity" class="passivity" *ngIf="matchConfig.passivity && passivityTime > 0">{{ math.floor(passivityTime/10) }}</div>
   <div class="timer">
@@ -54,6 +56,11 @@
     <ng-template #timeSecondsTenths>
       {{ math.floor(time/10) | number: '2.0-0' }}.{{ time % 10 | number: '1.0-0' }}
     </ng-template>
+  </div>
+  <div class="filler"></div>
+  <div class="penaltybuttons">
+    <button mat-raised-button color="primary" (click)="penalty(scoreLeft)">🟨</button>
+    <button mat-raised-button color="primary" (click)="penalty(scoreRight)">🟨</button>
   </div>
   <div class="filler"></div>
 </div>

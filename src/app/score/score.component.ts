@@ -32,7 +32,7 @@ export class ScoreComponent {
   scoreLeft: Score = {
     score: 0,
     displayScore: "0",
-    yellow: true,
+    yellow: false,
   };
   scoreRight: Score = {
     score: 0,
@@ -311,5 +311,9 @@ export class ScoreComponent {
       this.priority = "right";
       document.getElementById("scoreRight")!.style.backgroundColor = priorityColor;
     }
+  }
+
+  penalty(score:Score){
+    score.yellow = true;
   }
 }

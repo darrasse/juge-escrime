@@ -1,50 +1,70 @@
 <div class="content">
-<div class="header">
-            <button mat-raised-button color="primary" (click)="reset()">
-                ↺
-            </button>
-            <button mat-raised-button color="primary" (click)="flipColors()">
-                ↔
-            </button>
-            <button mat-raised-button color="primary" [disabled]="this.phase == 'START'" (click)="openEdit()">
-                ✎
-            </button>
-            <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
-                ⚙
-            </button>
-</div>
+  <div class="header">
+    <button mat-raised-button color="primary" (click)="reset()">
+      ↺
+    </button>
+    <button mat-raised-button color="primary" (click)="flipColors()">
+      ↔
+    </button>
+    <button mat-raised-button color="primary" [disabled]="this.phase == 'START'" (click)="openEdit()">
+      ✎
+    </button>
+    <button mat-raised-button color="primary" [disabled]="this.phase != 'START'" (click)="openConfiguration()">
+      ⚙
+    </button>
+  </div>
 
-<div id="scores" class="scores">
-            <button mat-icon-button id="scoreLeft" class="score" (click)="increaseScore(scoreLeft)">
-                {{ scoreLeft.displayScore }}
-            </button>
-        <div>{{ matchConfig.touches * bout }}</div>
-            <button mat-icon-button id="scoreRight" class="score" (click)="increaseScore(scoreRight)">
-                {{ scoreRight.displayScore }}
-            </button>
-            <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreLeft)">
-                -
-            </button>
-        <div>
-            <div *ngIf="matchConfig.periods > 1">{{ period }}/{{ matchConfig.periods }}</div>
-            <div *ngIf="matchConfig.bouts > 1">{{ bout }}/{{ matchConfig.bouts }}</div>
-        </div>
-            <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreRight)">
-                -
-            </button>
-</div>
-<div class="filler"></div>
-<div id="passivity" class="passivity" *ngIf="matchConfig.passivity && passivityTime > 0">{{ math.floor(passivityTime/10) }}</div>
-<div class="timer">
+  <div id="scores" class="scores">
+    <button mat-icon-button id="scoreLeft" class="score" (click)="increaseScore(scoreLeft)">
+      {{ scoreLeft.displayScore }}
+    </button>
+    <div>{{ matchConfig.touches * bout }}</div>
+    <button mat-icon-button id="scoreRight" class="score" (click)="increaseScore(scoreRight)">
+      {{ scoreRight.displayScore }}
+    </button>
+    <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreLeft)">
+      -
+    </button>
+    <div>
+      <div *ngIf="matchConfig.periods > 1">{{ period }}/{{ matchConfig.periods }}</div>
+      <div *ngIf="matchConfig.bouts > 1">{{ bout }}/{{ matchConfig.bouts }}</div>
+    </div>
+    <button mat-icon-button class="decreaseScore" color="primary" (click)="decreaseScore(scoreRight)">
+      -
+    </button>
+    <div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreLeft.yellow = false" *ngIf="scoreLeft.yellow">🟨</button>
+      <button mat-icon-button class="decreaseScore" (click)="scoreLeft.red = false" *ngIf="scoreLeft.red">🟥</button>
+    </div>
+    <div>
+    </div>
+    <div>
+      <button mat-icon-button class="decreaseScore" (click)="scoreRight.yellow = false" *ngIf="scoreRight.yellow">🟨</button>
+      <button mat-icon-button class="decreaseScore" (click)="scoreRight.red = false" *ngIf="scoreRight.red">🟥</button>
+    </div>
+  </div>
+
+  <div class="filler"></div>
+  <div class="filler"></div>
+  <div class="filler"></div>
+  <div id="passivity" class="passivity" *ngIf="matchConfig.passivity && passivityTime > 0">{{ math.floor(passivityTime/10) }}</div>
+  <div class="timer">
     <button mat-fab extended [color]="timerColor" id="timer" (click)="flipTimer()">
-        <ng-container *ngIf="time > 600; then timeMinutesSeconds; else timeSecondsTenths"></ng-container>
+      <ng-container *ngIf="time > 600; then timeMinutesSeconds; else timeSecondsTenths"></ng-container>
     </button>
     <ng-template #timeMinutesSeconds>
-        {{ math.floor(time/600) | number: '2.0-0' }}:{{ math.floor(time/10) % 60 | number: '2.0-0' }}
+      {{ math.floor(time/600) | number: '2.0-0' }}:{{ math.floor(time/10) % 60 | number: '2.0-0' }}
     </ng-template>
     <ng-template #timeSecondsTenths>
-        {{ math.floor(time/10) | number: '2.0-0' }}.{{ time % 10 | number: '1.0-0' }}
+      {{ math.floor(time/10) | number: '2.0-0' }}.{{ time % 10 | number: '1.0-0' }}
     </ng-template>
-</div>
-<div class="filler"></div>
+  </div>
+  <div class="filler"></div>
+  <div class="penaltyButtons">
+    <button mat-raised-button color="primary" (click)="scoreLeft.yellow=true" [disabled]="scoreLeft.yellow || scoreLeft.red">🟨</button>
+    <button mat-raised-button color="primary" (click)="scoreLeft.red=true" [disabled]="scoreLeft.red">🟥</button>
+    <button mat-raised-button color="primary" (click)="scoreRight.red=true" [disabled]="scoreRight.red">🟥</button>
+    <button mat-raised-button color="primary" (click)="scoreRight.yellow=true" [disabled]="scoreRight.yellow || scoreRight.red">🟨</button>
+  </div>
+  <div class="filler"></div>
 </div>

@@ -21,6 +21,12 @@ table {
   justify-content: space-between;
 }
 
+.penaltyButtons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 #scores {
   height: 20%;
   text-align: center;

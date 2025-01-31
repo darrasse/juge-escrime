@@ -6,6 +6,7 @@ interface Score {
   score: number;
   displayScore: string;
   yellow: boolean;
+  red: boolean;
 }
 
 @Component({
@@ -33,11 +34,13 @@ export class ScoreComponent {
     score: 0,
     displayScore: "0",
     yellow: false,
+    red: false,
   };
   scoreRight: Score = {
     score: 0,
     displayScore: "0",
     yellow: false,
+    red: false,
   };
   phase: string = "START";
   time: number = this.matchConfig.time * 10;
@@ -55,11 +58,13 @@ export class ScoreComponent {
       score: 0,
       displayScore: "0",
       yellow: false,
+      red: false,
     };
     this.scoreRight = {
       score: 0,
       displayScore: "0",
       yellow: false,
+      red: false,
     };
     this.phase = "START";
     this.time = this.matchConfig.time * 10;
@@ -311,9 +316,5 @@ export class ScoreComponent {
       this.priority = "right";
       document.getElementById("scoreRight")!.style.backgroundColor = priorityColor;
     }
-  }
-
-  penalty(score:Score){
-    score.yellow = true;
   }
 }

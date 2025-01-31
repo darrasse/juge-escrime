@@ -34,14 +34,16 @@
     </button>
     <div>
       <button mat-icon-button class="decreaseScore" (click)="scoreLeft.yellow = false" *ngIf="scoreLeft.yellow">🟨</button>
+      <button mat-icon-button class="decreaseScore" (click)="scoreLeft.red = false" *ngIf="scoreLeft.red">🟥</button>
     </div>
     <div>
     </div>
     <div>
       <button mat-icon-button class="decreaseScore" (click)="scoreRight.yellow = false" *ngIf="scoreRight.yellow">🟨</button>
+      <button mat-icon-button class="decreaseScore" (click)="scoreRight.red = false" *ngIf="scoreRight.red">🟥</button>
     </div>
-
   </div>
+
   <div class="filler"></div>
   <div class="filler"></div>
   <div class="filler"></div>
@@ -58,9 +60,11 @@
     </ng-template>
   </div>
   <div class="filler"></div>
-  <div class="penaltybuttons">
-    <button mat-raised-button color="primary" (click)="penalty(scoreLeft)">🟨</button>
-    <button mat-raised-button color="primary" (click)="penalty(scoreRight)">🟨</button>
+  <div class="penaltyButtons">
+    <button mat-raised-button color="primary" (click)="scoreLeft.yellow=true" [disabled]="scoreLeft.yellow || scoreLeft.red">🟨</button>
+    <button mat-raised-button color="primary" (click)="scoreLeft.red=true" [disabled]="scoreLeft.red">🟥</button>
+    <button mat-raised-button color="primary" (click)="scoreRight.red=true" [disabled]="scoreRight.red">🟥</button>
+    <button mat-raised-button color="primary" (click)="scoreRight.yellow=true" [disabled]="scoreRight.yellow || scoreRight.red">🟨</button>
   </div>
   <div class="filler"></div>
 </div>

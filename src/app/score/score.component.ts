@@ -47,6 +47,7 @@ export class ScoreComponent {
   timeRollback: number = 0;
   priority: string = "";
   passivityTime: number = 600;
+  passivityCard: string = "";
 
   timerColor: string = "primary";
 
@@ -70,6 +71,7 @@ export class ScoreComponent {
     this.time = this.matchConfig.time * 10;
     this.timerColor = "primary";
     this.passivityTime = 600;
+    this.passivityCard = "";
     document.getElementById("timer")!.style.opacity = "1.0";
     this.resetPriority();
   }
@@ -221,6 +223,7 @@ export class ScoreComponent {
       this.phase = "TIMEUP";
     }
     this.passivityTime = 0;
+    this.passivityCard = "";
   }
 
   timeUp() {
@@ -259,6 +262,17 @@ export class ScoreComponent {
       this.passivityTime = 600;
     }
     this.phase = "PAUSED";
+    this.increasePassivityCard();
+  }
+
+  increasePassivityCard() {
+    if (this.passivityCard == "") {
+      this.passivityCard = "YELLOW";
+    } else if (this.passivityCard == "YELLOW") {
+      this.passivityCard = "RED";
+    } else if (this.passivityCard == "RED") {
+      this.passivityCard = "BLACK";
+    }
   }
 
   displayScores() {
